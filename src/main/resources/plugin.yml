@@ -1,0 +1,7 @@
+name: PixelliteHub
+author: Pixellite Studios
+version: 1.0.0
+description: A pixellite hub plugin
+main: studio.pixellite.hub.HubPlugin
+depend: [helper]
+api-version: 1.13
