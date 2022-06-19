@@ -9,3 +9,6 @@ spawn-point:
 # Supports adventure
 compass:
   name: 'Server Selector'
+
+welcome-message:
+  - '     Sample test message'

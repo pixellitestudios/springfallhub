@@ -1,20 +1,22 @@
 package studio.pixellite.hub.modules;
 
+import com.google.common.reflect.TypeToken;
 import me.lucko.helper.Events;
+import me.lucko.helper.config.objectmapping.ObjectMappingException;
 import me.lucko.helper.terminable.TerminableConsumer;
 import me.lucko.helper.terminable.module.TerminableModule;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import studio.pixellite.hub.HubPlugin;
 import studio.pixellite.hub.util.AdventureDeserializer;
+
+import java.util.List;
 
 public class JoinModule implements TerminableModule {
   private final HubPlugin plugin;
@@ -39,6 +41,9 @@ public class JoinModule implements TerminableModule {
 
               // give player compass
               giveCompass(player);
+
+              // send the welcome message
+              sendWelcomeMessage(player);
             });
   }
 
@@ -52,5 +57,20 @@ public class JoinModule implements TerminableModule {
     itemStack.setItemMeta(meta);
 
     player.getInventory().setItem(4, itemStack);
+  }
+
+  private void sendWelcomeMessage(Player player) {
+    List<String> messages;
+
+    try {
+      messages = plugin.getConfiguration().getNode("welcome-message")
+              .getList(TypeToken.of(String.class));
+    } catch (ObjectMappingException e) {
+      throw new RuntimeException(e);
+    }
+
+    for(String message : messages) {
+      player.sendMessage(AdventureDeserializer.deserialize(message));
+    }
   }
 }
