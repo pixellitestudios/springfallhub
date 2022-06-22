@@ -47,6 +47,11 @@ public class JoinModule implements TerminableModule {
             });
   }
 
+  /**
+   * Gives a server selector compass to the player.
+   *
+   * @param player the player to give the item to
+   */
   private void giveCompass(Player player) {
     ItemStack itemStack = new ItemStack(Material.COMPASS, 1);
     ItemMeta meta = itemStack.getItemMeta();
@@ -57,8 +62,14 @@ public class JoinModule implements TerminableModule {
     itemStack.setItemMeta(meta);
 
     player.getInventory().setItem(4, itemStack);
+    player.getInventory().setHeldItemSlot(4);
   }
 
+  /**
+   * Sends the configured welcome message to the player.
+   *
+   * @param player the player to send to
+   */
   private void sendWelcomeMessage(Player player) {
     List<String> messages;
 
