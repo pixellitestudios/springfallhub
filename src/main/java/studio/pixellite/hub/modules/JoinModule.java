@@ -26,7 +26,7 @@ public class JoinModule implements TerminableModule {
   }
 
   @Override
-  public void setup(@NotNull TerminableConsumer terminableConsumer) {
+  public void setup(@NotNull TerminableConsumer consumer) {
     Events.subscribe(PlayerJoinEvent.class)
             .handler(e -> {
               Player player = e.getPlayer();
@@ -44,7 +44,7 @@ public class JoinModule implements TerminableModule {
 
               // send the welcome message
               sendWelcomeMessage(player);
-            });
+            }).bindWith(consumer);
   }
 
   /**

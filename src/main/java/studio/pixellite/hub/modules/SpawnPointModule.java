@@ -16,7 +16,7 @@ public class SpawnPointModule implements TerminableModule {
   }
 
   @Override
-  public void setup(@NotNull TerminableConsumer terminableConsumer) {
+  public void setup(@NotNull TerminableConsumer consumer) {
     Commands.create()
             .assertPermission("pixellite.hub.getspawn")
             .handler(c -> {
@@ -29,6 +29,6 @@ public class SpawnPointModule implements TerminableModule {
               Players.msg(c.sender(), "&aYaw: &f" + spawnPoint.getYaw());
               Players.msg(c.sender(), "&aWorld: &f" + spawnPoint.getWorld());
             })
-            .registerAndBind(terminableConsumer, "getspawnpoint");
+            .registerAndBind(consumer, "getspawnpoint");
   }
 }

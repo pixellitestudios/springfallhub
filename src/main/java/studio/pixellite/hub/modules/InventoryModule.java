@@ -11,19 +11,22 @@ import org.jetbrains.annotations.NotNull;
 
 public class InventoryModule implements TerminableModule {
   @Override
-  public void setup(@NotNull TerminableConsumer terminableConsumer) {
+  public void setup(@NotNull TerminableConsumer consumer) {
     Events.subscribe(PlayerDropItemEvent.class)
             .filter(e -> !e.getPlayer().hasPermission("pixellite.hub.bypass"))
-            .handler(e -> e.setCancelled(true));
+            .handler(e -> e.setCancelled(true))
+            .bindWith(consumer);
 
     Events.subscribe(PlayerInteractEvent.class)
             .filter(e -> e.getAction().isRightClick())
             .filter(e -> e.getMaterial().equals(Material.COMPASS))
-            .handler(e -> e.getPlayer().performCommand("server"));
+            .handler(e -> e.getPlayer().performCommand("server"))
+            .bindWith(consumer);
 
     Events.subscribe(InventoryClickEvent.class)
             .filter(e -> !e.getClick().isKeyboardClick() || !e.getClick().isCreativeAction())
             .filter(e -> !e.getWhoClicked().hasPermission("pixellite.hub.bypass"))
-            .handler(e -> e.setCancelled(true));
+            .handler(e -> e.setCancelled(true))
+            .bindWith(consumer);
   }
 }
